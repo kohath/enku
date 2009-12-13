@@ -1,1 +1,16 @@
-This is the read-me for your leaf.
+# Encourager ##########################################################
+
+Encourager is an [Autumn][] leaf, an IRC bot intended to perform 
+various functions related to helping people gain weight.
+
+[Autumn]:	http://github.com/RISCfuture/autumn
+
+
+## Functionality ######################################################
+
+Implemented functionality:
+* none
+
+Planned functionality:
+* weight and goal tracking
+* exhortations to snack

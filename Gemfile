@@ -26,3 +26,5 @@ end
 # group :season_name do
 #  gem 'my-gem'
 # end
+
+gem 'rdoc'

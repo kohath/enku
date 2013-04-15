@@ -7,3 +7,6 @@ Scorekeeper:
   class: Scorekeeper
 Insulter: 
   class: Insulter
+Encourager:
+  class: Encourager
+  respond_to_private_messages: true

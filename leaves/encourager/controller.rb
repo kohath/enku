@@ -10,18 +10,24 @@ class Controller < Autumn::Leaf
     
     case msg
     when nil
-      stem.message "Hi! I'm here to help you put on weight. Here are some commands to help you out. These are short explanations and you can get more info by typing \"#{@options[:command_prefix]}help <command>\" (e.g. #{@options[:command_prefix]}help weigh)", sender[:nick]
-      stem.message(@options[:command_prefix] << "register - for individualized as opposed to generic encouragement.", sender[:nick]) if commands.include? "register"
-      stem.message(@options[:command_prefix] << "weigh <weight> - lets me know how much you weigh today.", sender[:nick]) if commands.include? "weigh"
-      stem.message(@options[:command_prefix] << "goal <weight> [by <date>] - to set a weight goal with optional deadline.", sender[:nick]) if commands.include? "goal"
-      stem.message(@options[:command_prefix] << "ate <numberofcalories> - lets me know how much you just ate in calories.", sender[:nick]) if commands.include? "ate"
-      stem.message(@options[:command_prefix] << "encourage <name> - and I'll nudge <name> to get a snack.", sender[:nick]) if commands.include? "encourage"
-      stem.message(@options[:command_prefix] << "unregister - to clear all your historical data.", sender[:nick]) if commands.include? "unregister"
-      stem.message(@options[:command_prefix] << "suggest <calories> <snack> - to give me ideas.", sender[:nick]) if commands.include? "suggest"
-      stem.message(@options[:command_prefix] << "race <name> <number> - to challenge someone to a race to gain a given amount of weight. ", sender[:nick]) if commands.include? "race"
+      stem.message "Hi! I'm here to help you put on weight. Here are some commands to help you out. These are short explanations and you can get more info by typing \"#{pf}help <command>\" (e.g. #{pf}help weigh)", sender[:nick]
+      stem.message(pf << "register - for individualized as opposed to generic encouragement.", sender[:nick]) if commands.include? "register"
+      stem.message(pf << "weigh <weight> - lets me know how much you weigh today.", sender[:nick]) if commands.include? "weigh"
+      stem.message(pf << "goal <weight> [by <date>] - to set a weight goal with optional deadline.", sender[:nick]) if commands.include? "goal"
+      stem.message(pf << "ate <numberofcalories> - lets me know how much you just ate in calories.", sender[:nick]) if commands.include? "ate"
+      stem.message(pf << "encourage <name> - and I'll nudge <name> to get a snack.", sender[:nick]) if commands.include? "encourage"
+      stem.message(pf << "unregister - to clear all your historical data.", sender[:nick]) if commands.include? "unregister"
+      stem.message(pf << "suggest <calories> <snack> - to give me ideas.", sender[:nick]) if commands.include? "suggest"
+      stem.message(pf << "race <name> <number> - to challenge someone to a race to gain a given amount of weight. ", sender[:nick]) if commands.include? "race"
     else
       stem.message("I don't know anything about a command '%s'." % msg, sender[:nick])
     end
     nil
+  end
+  
+  private 
+  # Conveniently get the command PreFix, or prepend it to a string
+  def pf(str = "")
+    "%s%s" % [@options[:command_prefix], str]
   end
 end

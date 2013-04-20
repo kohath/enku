@@ -14,9 +14,12 @@ class Controller < Autumn::Leaf
                    "\"#{pf}weigh 250\" tells me you weigh 250 lbs. I will "     \
                    "assume pounds if you don't say otherwise, but I also "      \
                    "understand \"#{pf}weigh 113 kg\" and \"#{pf}weigh 17 st 12 "\
-                   "lb\".  Decimals are okay - you can \"#{pf}weigh 249.6\" too.", sender[:nick]
+                   "lb\". Decimals are okay - you can \"#{pf}weigh 249.6\" too.", sender[:nick]
     when nil
-      stem.message "Hi! I'm here to help you put on weight. Here are some commands to help you out. These are short explanations and you can get more info by typing \"#{pf}help <command>\" (e.g. #{pf}help weigh)", sender[:nick]
+      stem.message "Hi! I'm here to help you put on weight. Here are some "     \
+                   "commands to help you out. These are short explanations and "\
+                   "you can get more info by typing \"#{pf}help <command>\" "   \
+                   "(e.g. #{pf}help weigh)", sender[:nick]
       stem.message(pf << "register - for individualized as opposed to generic encouragement.", sender[:nick]) if commands.include? "register"
       stem.message(pf << "weigh <weight> - lets me know how much you weigh today.", sender[:nick]) if commands.include? "weigh"
       stem.message(pf << "goal <weight> [by <date>] - to set a weight goal with optional deadline.", sender[:nick]) if commands.include? "goal"

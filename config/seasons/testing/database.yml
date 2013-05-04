@@ -1,2 +1,3 @@
 --- 
-Scorekeeper: sqlite:leaves/scorekeeper/database.db
+Encourager: sqlite:leaves/encourager/database.db
+

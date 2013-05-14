@@ -38,10 +38,10 @@ class Controller < Autumn::Leaf
   end
   
   def weigh_command(stem, sender, reply_to, msg)
-    weighed = Gainer.find_or_create({:name => sender[:nick].downcase})
+    weighed = Gainer.first_or_create({:name => sender[:nick].downcase})
     
     if weighed.update(:weight => parse_weight(msg))
-      "Awesome! #{weighed[:name]} weighs #{converted_weight(weighed[:weight], weighed[:units])}."
+      "Awesome! #{sender[:nick]} weighs #{converted_weight(weighed[:weight], weighed[:units])}."
     else
       "Okay, but I'm having trouble remembering that #{sender[:nick]} (#{weighed[:name]}) weighs #{msg} (#{converted_weight(weighed[:weight], weighed[:units])})."
     end  
@@ -55,7 +55,7 @@ class Controller < Autumn::Leaf
   def sizeup_command(stem, sender, reply_to, msg)
     asker = Gainer.first_or_create(:name => sender[:nick].downcase)
       
-    inquest = Gainer.find(:name => msg.downcase)
+    inquest = Gainer.first(:name => msg.downcase)
     if inquest
       "Last I heard, #{msg} weighed #{converted_weight(inquest.weight, asker.units)}.  Sounds like someone needs a donut."
     else

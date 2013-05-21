@@ -67,7 +67,7 @@ class Controller < Autumn::Leaf
     asker = Gainer.first_or_create(:name => sender[:nick].downcase)
       
     inquest = Gainer.first(:name => msg.downcase)
-    if inquest
+    if inquest && inquest[:weight] && inquest[:weight] > 0.0
       "Last I heard, #{msg} weighed #{converted_weight(inquest.weight, asker.units)}.  Sounds like someone needs a donut."
     else
       "I don't know how much #{msg} weighs."

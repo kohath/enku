@@ -63,6 +63,16 @@ class Controller < Autumn::Leaf
     Gainer.all.collect {|g| "%s - %f" % [g.name, g.weight || 0.0] }.join("; ")
   end
   
+  def convert_command(stem, sender, reply_to, msg)
+    given_weight = converted_weight(msg)
+    conversions = Gainer::WEIGHT_UNITS.delete_if {|unit| unit == determine_units(given_weight)}
+    converted = conversions.collect do |unit|
+      converted_weight(given_weight, unit)
+    end
+    converted = converted.join(", or ")
+    "#{given_weight} is about #{converted}"
+  end
+  
   def sizeup_command(stem, sender, reply_to, msg)
     asker = Gainer.first_or_create(:name => sender[:nick].downcase)
       

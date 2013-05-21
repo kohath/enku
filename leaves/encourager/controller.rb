@@ -40,8 +40,19 @@ class Controller < Autumn::Leaf
   def weigh_command(stem, sender, reply_to, msg)
     weighed = Gainer.first_or_create({:name => sender[:nick].downcase})
     
-    if weighed.update(:weight => parse_weight(msg))
-      "Awesome! #{sender[:nick]} weighs #{converted_weight(weighed[:weight], weighed[:units])}."
+    old_weight = weighed[:weight]
+    
+    if weighed.update(:weight => parse_weight(msg), :units => determine_units(msg))
+      case
+      when (old_weight == 0.0 or old_weight.nil?)
+        "You weigh #{converted_weight(weighed[:weight], weighed[:units])} - awesome."
+      when old_weight < weighed[:weight]
+        "#{converted_weight(weighed[:weight], weighed[:units])}? That's #{converted_weight(weighed[:weight]-old_weight, weighed[:units])} more than last time! Keep going!"
+      when old_weight > weighed[:weight]
+        "#{converted_weight(weighed[:weight], weighed[:units])}? You're #{converted_weight(old_weight-weighed[:weight], weighed[:units])} less than last weigh-in ... better grab a snack!"
+      when old_weight = weighed[:weight]
+        "That's the same as last time... Eat something!"
+      end
     else
       "Okay, but I'm having trouble remembering that #{sender[:nick]} (#{weighed[:name]}) weighs #{msg} (#{converted_weight(weighed[:weight], weighed[:units])})."
     end  

@@ -23,7 +23,7 @@
   
   # Return a string expressing a pounds weight in the requested units
   def converted_weight(weight, units = determine_units(weight))
-    weight = parse_weight(weight).to_f
+    weight = weight ? parse_weight(weight).to_f : 0
     case 
     when units == Gainer::STONE && weight >= 14 then "#{(weight/14).floor}st%s" % (" #{(weight%14).round(1)}lb" if weight%14 >= 0.05)
     when units == Gainer::KILOGRAMS then "#{(weight/2.2).round(1)}kg"

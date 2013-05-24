@@ -16,6 +16,18 @@ class Controller < Autumn::Leaf
                    "assume pounds if you don't say otherwise, but I also "      \
                    "understand \"#{pf}weigh 113 kg\" and \"#{pf}weigh 17 st 12 "\
                    "lb\". Decimals are okay - you can \"#{pf}weigh 249.6\" too.", sender[:nick]
+    when "goal", pf("goal")
+      stem.message "Use #{pf}goal to tell me how much you'd like to weigh. "    \
+                   "\"#{pf}goal 250\" tells me you want to weigh 250 pounds.  " \
+                   "(I also understand decimal weights and other units -- "     \
+                   "\"#{pf}goal 249.6\", \"#{pf}goal 113 kg\", and \"{pf}goal " \
+                   "17 st 12 lb\" are all okay.) I'll push you every now and "  \
+                   "then, especially if you're slipping. If you add a date in " \
+                   "m/d form, e.g. \"#{pf}goal 250 by 1/15\", then I'll also "  \
+                   "keep track of how you're doing in comparison to your "      \
+                   "deadline.  (You can't set a goal lasting longer than a "    \
+                   "year; if you have longer-term goals, just set them with me "\
+                   "a year at a time.)", sender[:nick]
     when nil
       # After we get a few of these, just start listing keywords, ok?
       stem.message "Hi! I'm here to help you put on weight. Here are some "     \
@@ -81,6 +93,19 @@ class Controller < Autumn::Leaf
       "Last I heard, #{msg} weighed #{converted_weight(inquest.weight, asker.units)}.  Sounds like someone needs a donut."
     else
       "I don't know how much #{msg} weighs."
+    end
+  end
+  
+  def goal_command(stem, sender, reply_to, msg)
+    gainer = Gainer.first_or_create(name: sender[:nick].downcase)
+    
+    if gainer.update(goal: parse_weight(msg))
+      diff = if gainer.weight && gainer.weight > 0.0 
+        " #{converted_weight(gainer[:goal] - gainer[:weight], gainer[:units])} to go!" 
+      end
+      "#{converted_weight(gainer[:goal], gainer[:units])}! Sounds great!#{diff}"
+    else
+      "Okay, but I'm going to have trouble remembering that."
     end
   end
   

@@ -5,9 +5,11 @@
   property :name, String
   property :weight, Float
   property :units, Integer
+  property :goal, Float
+  property :goaldate, Date
   
-  WEIGHT_UNITS = [POUNDS, KILOGRAMS, STONE]
   POUNDS = 0
   KILOGRAMS = 1
   STONE = 2
+  WEIGHT_UNITS = [POUNDS, KILOGRAMS, STONE]
 end

@@ -53,6 +53,7 @@ class Controller < Autumn::Leaf
     weighed = Gainer.first_or_create({:name => sender[:nick].downcase})
     
     old_weight = weighed[:weight]
+    passed_goal = weighed[:weight] < weighed[:goal] ? parse_weight(msg) > weighed[:goal] : parse_weight(msg) < weighed[:goal]
     
     if weighed.update(:weight => parse_weight(msg), :units => determine_units(msg))
       case
@@ -64,7 +65,7 @@ class Controller < Autumn::Leaf
         "#{converted_weight(weighed[:weight], weighed[:units])}? You're #{converted_weight(old_weight-weighed[:weight], weighed[:units])} less than last weigh-in ... better grab a snack!"
       when old_weight = weighed[:weight]
         "That's the same as last time... Eat something!"
-      end
+      end << " You've passed your goal!" if passed_goal
     else
       "Okay, but I'm having trouble remembering that #{sender[:nick]} (#{weighed[:name]}) weighs #{msg} (#{converted_weight(weighed[:weight], weighed[:units])})."
     end  

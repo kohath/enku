@@ -78,12 +78,13 @@ class Controller < Autumn::Leaf
   
   def convert_command(stem, sender, reply_to, msg)
     given_weight = converted_weight(msg)
-    conversions = Gainer::WEIGHT_UNITS.delete_if {|unit| unit == determine_units(given_weight)}
+    conversions = Gainer::WEIGHT_UNITS.dup.delete_if {|unit| unit == determine_units(given_weight)}
+    conversions.delete Gainer::STONE if parse_weight(given_weight) < 14
     converted = conversions.collect do |unit|
       converted_weight(given_weight, unit)
     end
     converted = converted.join(", or ")
-    "#{given_weight} is about #{converted}"
+    "#{given_weight} is about #{converted}."
   end
   
   def sizeup_command(stem, sender, reply_to, msg)

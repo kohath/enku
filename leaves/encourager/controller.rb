@@ -29,9 +29,9 @@ class Controller < Autumn::Leaf
                    "year; if you have longer-term goals, just set them with me "\
                    "a year at a time.)", sender[:nick]
     when "race", pf("race")
-      stem.message "It's better to gain with friends!  Do !race <name> <weight>"\
-                   " race <name> to to gain the given amount of weight. The "   \
-                   "first person to report a weight the given amount or more "  \
+      stem.message "It's better to gain with friends!  Do !race <weight> to "  \
+                   " start a race to gain the given amount of weight. The "    \
+                   "first person to report a weight the given amount or more " \
                    "higher than their starting weight wins."
     when nil
       # After we get a few of these, just start listing keywords, ok?
